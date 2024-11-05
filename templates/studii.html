@@ -1,0 +1,28 @@
+<!-- medici.html -->
+<table border="1" style="width: 100%; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th>Id_studiu</th>
+            <th>Nume_studiu</th>
+            <th>Data_incepere</th>
+            <th>Data_finalizare</th>
+            <th>Stadiu</th>
+            <th>Descriere</th>
+            <th>Id_medicament</th>
+            <th>Id_locatie</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for medic in studii %}
+            <tr>
+                <td>{{ medic['Id_studiu'] }}</td> 
+                <td>{{ medic['Nume_studiu'] }}</td>      
+                <td>{{ medic['Data_incepere'] }}</td>   
+                <td>{{ medic['Data_finalizare'] }}</td>
+                <td>{{ medic['Stadiu'] }}</td>      
+                <td>{{ medic['Descriere'] }}</td>    
+                <td>{{ medic['Id_medicament'] }}</td>                 <td>{{ medic['Id_locatie'] }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

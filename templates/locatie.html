@@ -1,0 +1,29 @@
+<!-- medici.html -->
+<table border="1" style="width: 100%; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th>Id_locatie</th>
+            <th>Nume_locatie</th>
+            <th>Adresa</th>
+            <th>Oras</th>
+            <th>Judet</th>
+            <th>Cod_postal</th>
+            <th>Telefon_contact</th>
+            <th>E-mail</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for medic in locatie %}
+            <tr>
+                <td>{{ medic['Id_locatie'] }}</td> 
+                <td>{{ medic['Nume_locatie'] }}</td>      
+                <td>{{ medic['Adresa'] }}</td>   
+                <td>{{ medic['Oras'] }}</td>
+                <td>{{ medic['Judet'] }}</td>      
+                <td>{{ medic['Cod_postal'] }}</td>    
+                <td>{{ medic['Telefon_contact'] }}</td>     
+                <td>{{ medic['E-mail'] }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
