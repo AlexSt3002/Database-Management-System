@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #007BFF;
+    color: white;
+}
+
+button:active {
+    background-color: #0056b3;
+}
+  </style>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <button id="adminButton">Administrator</button>
+        <button id="userButton">User</button>
+    </div>
+
+    <script>
+        document.getElementById('adminButton').onclick = function() {
+            var password = prompt("Introduceți parola administratorului:");
+            if (password === "parola_corecta") { // Schimba "parola_corecta" cu parola dorita
+                alert("Autentificare reușită ca administrator!");
+                // Aici poți adăuga redirecționarea sau alte acțiuni
+            } else {
+                alert("Parolă greșită!");
+            }
+        };
+
+        document.getElementById('userButton').onclick = function() {
+            alert("Autentificare reușită ca user!");
+            // Aici poți adăuga redirecționarea sau alte acțiuni
+        };
+    </script>
+</body>
+</html>
