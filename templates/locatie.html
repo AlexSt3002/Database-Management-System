@@ -1,4 +1,58 @@
 <!-- medici.html -->
+<style>
+    /* General table styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-family: 'Arial', sans-serif;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    /* Header row styling */
+    thead th {
+        background-color: #6EC1E4; /* Soft blue */
+        color: #ffffff;
+        padding: 12px;
+        font-size: 15px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    /* Body row styling */
+    tbody tr {
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #E8F4FA; /* Light blue */
+    }
+
+    tbody tr:nth-child(odd) {
+        background-color: #FFFFFF; /* White */
+    }
+
+    tbody td {
+        padding: 10px;
+        font-size: 14px;
+        text-align: center;
+        color: #555;
+    }
+
+    /* Hover effect for rows */
+    tbody tr:hover {
+        background-color: #C5EAF7; /* Slightly darker blue */
+        cursor: pointer;
+    }
+
+    /* Border styling */
+    th, td {
+        border: none;
+    }
+</style>
+
 <table border="1" style="width: 100%; border-collapse: collapse;">
     <thead>
         <tr>
