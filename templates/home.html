@@ -27,21 +27,29 @@
             margin-bottom: 20px;
         }
 
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
         button {
-            padding: 10px 20px;
-            margin: 10px;
+            width: 100%;
+            padding: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
-            background-color: #007BFF;
-            color: white;
-        }
-
-        button:active {
             background-color: #0056b3;
         }
     </style>
@@ -49,29 +57,28 @@
 <body>
     <div class="container">
         <h1>Login</h1>
-        <button id="adminButton">Administrator</button>
-        <button id="userButton">User</button>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Nume utilizator" required>
+            <input type="password" id="password" placeholder="Parolă" required>
+            <button type="button" onclick="login()">Login</button>
+        </form>
     </div>
-    <p>
-        {{medici}}
-    </p>
 
     <script>
-        document.getElementById('adminButton').onclick = function() {
-            var password = prompt("Introduceți parola administratorului:");
-            if (password === "p") { // Schimba "parola_corecta" cu parola dorita
-                alert("Autentificare reușită ca administrator!");
-                // Redirecționare către pagina dashboard
-                window.location.href ="{{url_for('dashboard')}}"; // Asigură-te că acest fișier există
-            } else {
-                alert("Parolă greșită!");
-            }
-        };
+        function login() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
 
-        document.getElementById('userButton').onclick = function() {
-            alert("Autentificare reușită ca user!");
-            // Aici poți adăuga redirecționarea sau alte acțiuni
-        };
+            if (username === "admin" && password === "p") {
+                alert("Autentificare reușită ca administrator!");
+                window.location.href = "{{url_for('dashboard')}}";
+            } else if (username === "user" && password === "user_password") {
+                alert("Autentificare reușită ca user!");
+                // Redirecționare sau alte acțiuni pentru utilizator
+            } else {
+                alert("Nume utilizator sau parolă incorectă!");
+            }
+        }
     </script>
 </body>
 </html>
