@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from database import engine
 from sqlalchemy import text
 app=Flask(__name__)
@@ -78,5 +78,51 @@ def studii():
 def locatie():
   locatie=load_locatie()
   return render_template('locatie.html',locatie=locatie)
+
+@app.route('/medici/add', methods=['POST'])
+def add_medic():
+    nume = request.form['nume']
+    prenume = request.form['prenume']
+    specializare = request.form['specializare']
+    email = request.form['email']
+    telefon = request.form['telefon']
+    spital = request.form['spital']
+    with engine.connect() as conn:
+        conn.execute(
+            text("""
+                INSERT INTO Medici (Nume, Prenume, Specializare, Email, Telefon, Spital) 
+                VALUES (:nume, :prenume, :specializare, :email, :telefon, :spital)
+            """),
+            {"nume": nume, "prenume": prenume, "specializare": specializare, "email": email, "telefon": telefon, "spital": spital}
+        )
+        conn.commit()
+    return redirect(url_for('medici'))
+
+
+
+@app.route('/medici/edit/<int:id>', methods=['POST'])
+def edit_medic(id):
+    nume = request.form['nume']
+    prenume = request.form['prenume']
+    specializare = request.form['specializare']
+    email = request.form['email']
+    telefon = request.form['telefon']
+    spital = request.form['spital']
+    with engine.connect() as conn:
+        conn.execute(
+            text("""UPDATE Medici SET Nume=:nume, Prenume=:prenume, Specializare=:specializare, Email=:email, Telefon=:telefon, Spital=:spital WHERE Id_medic=:id"""),
+            {"nume": nume, "prenume": prenume, "specializare": specializare, "email": email, "telefon": telefon, "spital": spital, "id": id}
+        )
+        conn.commit()
+    return redirect(url_for('medici'))
+
+@app.route('/medici/delete/<int:id>', methods=['POST'])
+def delete_medic(id):
+    with engine.connect() as conn:
+        conn.execute(text("""DELETE FROM Medici WHERE Id_medic=:id"""), {"id": id})
+        conn.commit()
+    return redirect(url_for('medici'))
+
+
 if __name__=='__main__':
   app.run(host='0.0.0.0',debug=True)
