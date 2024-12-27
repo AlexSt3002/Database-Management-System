@@ -45,11 +45,34 @@
         button:active {
             background-color: #0056b3;
         }
+
+        /* Stil pentru secțiunea cu butoane de query */
+        .query-buttons-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            width: 80%;
+        }
+
+        .query-buttons-container h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .query-buttons-container button {
+            width: 200px;
+            margin: 10px;
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Dashboard</h1>
+        
+        <!-- Existing buttons for navigating to different sections -->
         <button id="pacientiButton">Pacienți</button>
         <button id="mediciButton">Medici</button>
         <button id="medicamenteButton">Medicamente</button>
@@ -57,30 +80,62 @@
         <button id="locatieButton">Locație</button>
     </div>
 
+    <!-- New section for JOIN operations -->
+    <div class="query-buttons-container">
+        <h2>Query-uri simple</h2>
+        <button id="join1Button">Afiseaza studiile la care participa fiecare medic</button>
+        <button id="join2Button">Afiseaza studiile la care participa fiecare pacient</button>
+        <button id="join3Button">Afiseaza medicii care se ocupa de fiecare pacient</button>
+        <button id="join4Button">Afiseaza ce medicament se foloseste la fiecare studiu in ordine descrescatoare </button>
+        <button id="join5Button">Afiseaza studiile pentru locatiile care incep cu litera 'C'</button>
+        <button id="join6Button">Afiseaza top 3 medici care lucreaza cele mai multe ore</button>
+    </div>
+
     <script>
         // Funcții pentru butoanele din dashboard
         document.getElementById('pacientiButton').onclick = function() {
             window.location.href = "{{url_for('pacienti')}}";
-            // Redirecționare sau alte acțiuni pot fi adăugate aici
         };
 
         document.getElementById('mediciButton').onclick = function() {
-            window.location.href = "{{url_for('medici')}}"; // Redirecționează către pagina medici.html
+            window.location.href = "{{url_for('medici')}}";
         };
 
         document.getElementById('medicamenteButton').onclick = function() {
             window.location.href = "{{url_for('medicamente')}}";
-            // Redirecționare sau alte acțiuni pot fi adăugate aici
         };
 
         document.getElementById('studiiCliniceButton').onclick = function() {
             window.location.href = "{{url_for('studii')}}";
-            // Redirecționare sau alte acțiuni pot fi adăugate aici
         };
 
         document.getElementById('locatieButton').onclick = function() {
             window.location.href = "{{url_for('locatie')}}";
-            // Redirecționare sau alte acțiuni pot fi adăugate aici
+        };
+
+        // Funcții pentru butoanele JOIN
+        document.getElementById('join1Button').onclick = function() {
+            window.location.href = "{{url_for('join1')}}";
+        };
+
+        document.getElementById('join2Button').onclick = function() {
+            window.location.href = "{{url_for('join2')}}";
+        };
+
+        document.getElementById('join3Button').onclick = function() {
+            window.location.href = "{{url_for('join3')}}";
+        };
+
+        document.getElementById('join4Button').onclick = function() {
+            window.location.href = "{{url_for('join4')}}";
+        };
+
+        document.getElementById('join5Button').onclick = function() {
+            window.location.href = "{{url_for('join5')}}";
+        };
+
+        document.getElementById('join6Button').onclick = function() {
+            window.location.href = "{{url_for('join6')}}";
         };
     </script>
 </body>

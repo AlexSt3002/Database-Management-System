@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from database import engine
 from sqlalchemy import text
 app=Flask(__name__)
@@ -308,6 +308,124 @@ def delete_studiu(id):
         conn.execute(text("""DELETE FROM Studii_Clinice WHERE Id_studiu=:id"""), {"id": id})
         conn.commit()
     return redirect(url_for('studii'))
+
+@app.route('/join1')
+def join1():
+    with engine.connect() as conn:
+        result = conn.execute(text("""
+            SELECT 
+            med.Nume, 
+            stud.Nume_studiu,
+            ms.Nr_ore,
+            ms.Nr_pacienti
+        FROM 
+            Medici med
+        JOIN 
+            Medici_studiu ms ON med.Id_medic = ms.Id_medic1
+        JOIN
+            Studii_Clinice stud ON ms.Id_studiu1 = stud.Id_studiu
+        """))
+        rows = result.fetchall()
+        columns = result.keys()
+    return render_template('join_results.html', rows=rows,columns=columns, query=" Medici Studii")
+
+# Route to fetch the second JOIN (medici_studiu and medici)
+@app.route('/join2')
+def join2():
+      with engine.connect() as conn:
+          result = conn.execute(text("""
+              SELECT 
+              paci.Nume, 
+              stud.Nume_studiu,
+              ps.Data_inrolare,
+              ps.Stare_participare
+          FROM 
+              Pacienti paci
+          JOIN 
+              Participanti_studiu ps ON paci.Id_pacient = ps.Id_pacient
+          JOIN
+              Studii_Clinice stud ON ps.Id_studiu = stud.Id_studiu
+          """))
+          rows = result.fetchall()
+          columns = result.keys()
+      return render_template('join_results.html', rows=rows,columns=columns, query=" Pacienti Studii")
+
+# Route to fetch the third JOIN (medici_studiu and medicamente)
+@app.route('/join3')
+def join3():
+      with engine.connect() as conn:
+          result = conn.execute(text("""
+              SELECT 
+              paci.Nume, 
+              med.Nume
+              
+          FROM 
+              Pacienti paci
+          JOIN 
+              Medici med ON paci.Id_medic = med.Id_medic
+          
+          """))
+          rows = result.fetchall()
+          columns = result.keys()
+      return render_template('join_results.html', rows=rows,columns=columns, query=" Pacienti Medici")
+
+# Route to fetch the fourth JOIN (medici_studiu and studii_clinice)
+@app.route('/join4')
+def join4():
+    with engine.connect() as conn:
+        result = conn.execute(text("""
+              
+          SELECT 
+              stud.Nume_studiu, 
+              med.Nume_medicament
+
+          FROM 
+              Studii_Clinice stud
+          JOIN 
+              Medicamente med ON stud.Id_medicament = med.Id_medicament
+          ORDER BY  stud.Nume_studiu DESC;
+          """))
+        rows = result.fetchall()
+        columns = result.keys()
+    return render_template('join_results.html', rows=rows,columns=columns, query=" Studiu Medicament")
+
+# Route to fetch the fifth JOIN (studii_clinice and participanti_studiu)
+@app.route('/join5')
+def join5():
+  with engine.connect() as conn:
+      result = conn.execute(text("""
+
+        SELECT 
+            loc.Nume_locatie,
+            stud.Nume_studiu
+            
+        FROM 
+            Studii_Clinice stud
+        JOIN 
+            Locatie loc ON stud.Id_locatie = loc.Id_locatie
+        Where loc.Nume_locatie Like 'C%';
+        """))
+      rows = result.fetchall()
+      columns = result.keys()
+  return render_template('join_results.html', rows=rows,columns=columns, query=" Locatie C Studii")
+# Route to fetch the sixth JOIN (participanti_studiu and pacienti)
+@app.route('/join6')
+def join6():
+      with engine.connect() as conn:
+          result = conn.execute(text("""
+              SELECT 
+              med.Nume, 
+              ms.Nr_ore              
+          FROM 
+              Medici med
+          JOIN 
+              Medici_studiu ms ON med.Id_medic = ms.Id_medic1
+          ORDER BY ms.Nr_ore DESC
+          Limit 3
+          """))
+          rows = result.fetchall()
+          columns = result.keys()
+      return render_template('join_results.html', rows=rows,columns=columns, query=" Medici Ore")
 
 if __name__=='__main__':
   app.run(host='0.0.0.0',debug=True)
