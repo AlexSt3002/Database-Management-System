@@ -1,4 +1,3 @@
-<!-- medici.html -->
 <style>
     /* General table styling */
     table {
@@ -47,13 +46,99 @@
         cursor: pointer;
     }
 
-    /* Border styling */
-    th, td {
+    /* Action buttons */
+    .action-btn {
+        padding: 5px 10px;
+        font-size: 12px;
         border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+
+    .edit-btn {
+        background-color: #FFA726; /* Orange */
+        color: white;
+    }
+
+    .delete-btn {
+        background-color: #E57373; /* Red */
+        color: white;
+    }
+
+    /* Add location form styling */
+    form.add-form {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        gap: 15px;
+    }
+
+    form.add-form input {
+        flex: 1 1 calc(50% - 15px);
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    form.add-form input:focus {
+        border-color: #6EC1E4;
+        outline: none;
+        box-shadow: 0 0 5px rgba(110, 193, 228, 0.5);
+    }
+
+    form.add-form button.add-btn {
+        flex-basis: 100%;
+        padding: 12px;
+        font-size: 14px;
+        color: white;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    form.add-form button.add-btn:hover {
+        background-color: #43A047;
+        transform: scale(1.03);
+    }
+
+    /* Responsiveness */
+    @media (max-width: 600px) {
+        form.add-form input {
+            flex-basis: 100%;
+        }
+        form.add-form button.add-btn {
+            flex-basis: 100%;
+        }
     }
 </style>
 
-<table border="1" style="width: 100%; border-collapse: collapse;">
+<!-- Add Location Form -->
+<form method="post" action="/locatie/add" class="add-form">
+    <h3>Adaugare Locatie</h3>
+    <input type="text" name="nume_locatie" placeholder="Nume Locatie" required>
+    <input type="text" name="adresa" placeholder="Adresa" required>
+    <input type="text" name="oras" placeholder="Oras" required>
+    <input type="text" name="judet" placeholder="Judet" required>
+    <input type="text" name="cod_postal" placeholder="Cod Postal" required>
+    <input type="text" name="telefon_contact" placeholder="Telefon Contact" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <button class="add-btn" type="submit">Add</button>
+</form>
+
+<table>
     <thead>
         <tr>
             <th>Id_locatie</th>
@@ -64,19 +149,37 @@
             <th>Cod_postal</th>
             <th>Telefon_contact</th>
             <th>E-mail</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for medic in locatie %}
+        {% for locatie in locatie %}
             <tr>
-                <td>{{ medic['Id_locatie'] }}</td> 
-                <td>{{ medic['Nume_locatie'] }}</td>      
-                <td>{{ medic['Adresa'] }}</td>   
-                <td>{{ medic['Oras'] }}</td>
-                <td>{{ medic['Judet'] }}</td>      
-                <td>{{ medic['Cod_postal'] }}</td>    
-                <td>{{ medic['Telefon_contact'] }}</td>     
-                <td>{{ medic['E-mail'] }}</td>
+                <td>{{ locatie['Id_locatie'] }}</td>
+                <td>{{ locatie['Nume_locatie'] }}</td>
+                <td>{{ locatie['Adresa'] }}</td>
+                <td>{{ locatie['Oras'] }}</td>
+                <td>{{ locatie['Judet'] }}</td>
+                <td>{{ locatie['Cod_postal'] }}</td>
+                <td>{{ locatie['Telefon_contact'] }}</td>
+                <td>{{ locatie['Email'] }}</td>
+                <td>
+                    <!-- Edit Form -->
+                    <form method="post" action="/locatie/edit/{{ locatie['Id_locatie'] }}" style="display: inline-block;">
+                        <input type="text" name="nume_locatie" value="{{ locatie['Nume_locatie'] }}" required>
+                        <input type="text" name="adresa" value="{{ locatie['Adresa'] }}" required>
+                        <input type="text" name="oras" value="{{ locatie['Oras'] }}" required>
+                        <input type="text" name="judet" value="{{ locatie['Judet'] }}" required>
+                        <input type="text" name="cod_postal" value="{{ locatie['Cod_postal'] }}" required>
+                        <input type="text" name="telefon_contact" value="{{ locatie['Telefon_contact'] }}" required>
+                        <input type="email" name="email" value="{{ locatie['Email'] }}" required>
+                        <button class="action-btn edit-btn" type="submit">Save</button>
+                    </form>
+                    <!-- Delete Button -->
+                    <form method="post" action="/locatie/delete/{{ locatie['Id_locatie'] }}" style="display: inline-block;">
+                        <button class="action-btn delete-btn" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

@@ -1,5 +1,4 @@
 <style>
-    /* General table styling */
     table {
         width: 100%;
         border-collapse: collapse;
@@ -25,6 +24,11 @@
 
     tbody tr:nth-child(even) {
         background-color: #E8F4FA; /* Light blue */
+    }
+
+    tbody tr:hover {
+        background-color: #C5EAF7; /* Slightly darker blue */
+        cursor: pointer;
     }
 
     tbody td {
@@ -61,11 +65,81 @@
         border-radius: 4px;
         cursor: pointer;
     }
+    /* Stilizare pentru formular landscape */
+    form.add-form {
+        display: flex;
+        flex-wrap: wrap; /* Permite mai multe linii în cazul ecranului mic */
+        max-width: 800px; /* Lățime maximă */
+        margin: 20px auto; /* Centrare pe pagină */
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        gap: 15px; /* Spațiu între câmpuri */
+    }
+
+    /* Titlul formularului */
+    form.add-form h3 {
+        flex-basis: 100%; /* Ocupă toată lățimea */
+        font-size: 18px;
+        color: #333;
+        text-align: center;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    /* Câmpurile de input */
+    form.add-form input {
+        flex: 1 1 calc(50% - 15px); /* Ocupă jumătate din lățime minus spațiu */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    form.add-form input:focus {
+        border-color: #6EC1E4;
+        outline: none;
+        box-shadow: 0 0 5px rgba(110, 193, 228, 0.5);
+    }
+
+    /* Butonul de adăugare */
+    form.add-form button.add-btn {
+        flex-basis: 100%; /* Ocupă toată lățimea */
+        padding: 12px;
+        font-size: 14px;
+        color: white;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    form.add-form button.add-btn:hover {
+        background-color: #43A047;
+        transform: scale(1.03);
+    }
+
+    /* Responsivitate */
+    @media (max-width: 600px) {
+        form.add-form input {
+            flex-basis: 100%; /* Pe ecrane mici, câmpurile ocupă toată lățimea */
+        }
+
+        form.add-form button.add-btn {
+            flex-basis: 100%; /* Butonul rămâne pe o linie separată */
+        }
+    }
 </style>
 
 <!-- Add Medic Form -->
-<form method="post" action="/medici/add">
-    <h3>Add Medic</h3>
+<form method="post" action="/medici/add" class="add-form">
+    <h3>Adaugare Medic</h3>
     <input type="text" name="nume" placeholder="Nume" required>
     <input type="text" name="prenume" placeholder="Prenume" required>
     <input type="text" name="specializare" placeholder="Specializare" required>

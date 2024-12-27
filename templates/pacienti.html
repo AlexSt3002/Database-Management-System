@@ -1,6 +1,4 @@
-<!-- medici.html -->
 <style>
-    /* General table styling */
     table {
         width: 100%;
         border-collapse: collapse;
@@ -11,7 +9,6 @@
         overflow: hidden;
     }
 
-    /* Header row styling */
     thead th {
         background-color: #6EC1E4; /* Soft blue */
         color: #ffffff;
@@ -21,7 +18,6 @@
         text-transform: uppercase;
     }
 
-    /* Body row styling */
     tbody tr {
         border-bottom: 1px solid #e0e0e0;
     }
@@ -41,44 +37,142 @@
         color: #555;
     }
 
-    /* Hover effect for rows */
     tbody tr:hover {
         background-color: #C5EAF7; /* Slightly darker blue */
         cursor: pointer;
     }
 
-    /* Border styling */
     th, td {
         border: none;
     }
+
+    /* Form styling */
+    form.add-form {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        gap: 15px;
+    }
+
+    form.add-form h3 {
+        flex-basis: 100%;
+        font-size: 18px;
+        color: #333;
+        text-align: center;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    form.add-form input {
+        flex: 1 1 calc(50% - 15px);
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    form.add-form input:focus {
+        border-color: #6EC1E4;
+        outline: none;
+        box-shadow: 0 0 5px rgba(110, 193, 228, 0.5);
+    }
+
+    form.add-form button.add-btn {
+        flex-basis: 100%;
+        padding: 12px;
+        font-size: 14px;
+        color: white;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    form.add-form button.add-btn:hover {
+        background-color: #43A047;
+        transform: scale(1.03);
+    }
+
+    @media (max-width: 600px) {
+        form.add-form input {
+            flex-basis: 100%;
+        }
+
+        form.add-form button.add-btn {
+            flex-basis: 100%;
+        }
+    }
 </style>
 
-<table border="1" style="width: 100%; border-collapse: collapse;">
+<!-- Add Patient Form -->
+<form method="post" action="/pacienti/add" class="add-form">
+    <h3>Adaugare Pacient</h3>
+    <input type="text" name="nume" placeholder="Nume" required>
+    <input type="text" name="prenume" placeholder="Prenume" required>
+    <input type="text" name="cnp" placeholder="CNP" required>
+    <input type="date" name="data_nasterii" placeholder="Data Nasterii" required>
+    <input type="text" name="sex" placeholder="Sex" required>
+    <input type="text" name="adresa" placeholder="Adresa" required>
+    <input type="text" name="telefon" placeholder="Telefon" required>
+    <input type="text" name="id_medic" placeholder="Id Medic" required>
+    <button class="add-btn" type="submit">Add</button>
+</form>
+
+<table>
     <thead>
         <tr>
             <th>Id_pacient</th>
             <th>Nume</th>
             <th>Prenume</th>
             <th>CNP</th>
-            <th>Data_nasterii</th>
+            <th>Data Nasterii</th>
             <th>Sex</th>
             <th>Adresa</th>
             <th>Telefon</th>
             <th>Id_medic</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for medic in pacienti %}
+        {% for pacient in pacienti %}
             <tr>
-                <td>{{ medic['Id_pacient'] }}</td> 
-                <td>{{ medic['Nume'] }}</td>      
-                <td>{{ medic['Prenume'] }}</td>   
-                <td>{{ medic['CNP'] }}</td>
-                <td>{{ medic['Data_nasterii'] }}</td>
-                <td>{{ medic['Sex'] }}</td>      
-                <td>{{ medic['Adresa'] }}</td>    
-                <td>{{ medic['Telefon'] }}</td>
-                <td>{{ medic['Id_medic'] }}</td>
+                <td>{{ pacient['Id_pacient'] }}</td>
+                <td>{{ pacient['Nume'] }}</td>
+                <td>{{ pacient['Prenume'] }}</td>
+                <td>{{ pacient['CNP'] }}</td>
+                <td>{{ pacient['Data_nasterii'] }}</td>
+                <td>{{ pacient['Sex'] }}</td>
+                <td>{{ pacient['Adresa'] }}</td>
+                <td>{{ pacient['Telefon'] }}</td>
+                <td>{{ pacient['Id_medic'] }}</td>
+                <td>
+                    <!-- Edit Form -->
+                    <form method="post" action="/pacienti/edit/{{ pacient['Id_pacient'] }}" style="display: inline-block;">
+                        <input type="text" name="nume" value="{{ pacient['Nume'] }}" required>
+                        <input type="text" name="prenume" value="{{ pacient['Prenume'] }}" required>
+                        <input type="text" name="cnp" value="{{ pacient['CNP'] }}" required>
+                        <input type="date" name="data_nasterii" value="{{ pacient['Data_nasterii'] }}" required>
+                        <input type="text" name="sex" value="{{ pacient['Sex'] }}" required>
+                        <input type="text" name="adresa" value="{{ pacient['Adresa'] }}" required>
+                        <input type="text" name="telefon" value="{{ pacient['Telefon'] }}" required>
+                        <input type="text" name="id_medic" value="{{ pacient['Id_medic'] }}" required>
+                        <button class="action-btn edit-btn" type="submit">Save</button>
+                    </form>
+                    <!-- Delete Button -->
+                    <form method="post" action="/pacienti/delete/{{ pacient['Id_pacient'] }}" style="display: inline-block;">
+                        <button class="action-btn delete-btn" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </tbody>

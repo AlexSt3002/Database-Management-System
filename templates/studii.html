@@ -1,4 +1,64 @@
-<!-- medici.html -->
+<!-- Add Studiu Form -->
+<form method="post" action="/studii/add" class="add-form">
+    <h3>Adaugare Studiu</h3>
+    <input type="text" name="nume_studiu" placeholder="Nume Studiu" required>
+    <input type="date" name="data_incepere" placeholder="Data Incepere" required>
+    <input type="date" name="data_finalizare" placeholder="Data Finalizare" required>
+    <input type="text" name="stadiu" placeholder="Stadiu" required>
+    <textarea name="descriere" placeholder="Descriere" required></textarea>
+    <input type="number" name="id_medicament" placeholder="Id Medicament" required>
+    <input type="number" name="id_locatie" placeholder="Id Locatie" required>
+    <button class="add-btn" type="submit">Add</button>
+</form>
+
+<!-- Studiu Table -->
+<table>
+    <thead>
+        <tr>
+            <th>Id_studiu</th>
+            <th>Nume_studiu</th>
+            <th>Data_incepere</th>
+            <th>Data_finalizare</th>
+            <th>Stadiu</th>
+            <th>Descriere</th>
+            <th>Id_medicament</th>
+            <th>Id_locatie</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for studiul in studii %}
+            <tr>
+                <td>{{ studiul['Id_studiu'] }}</td>
+                <td>{{ studiul['Nume_studiu'] }}</td>
+                <td>{{ studiul['Data_incepere'] }}</td>
+                <td>{{ studiul['Data_finalizare'] }}</td>
+                <td>{{ studiul['Stadiu'] }}</td>
+                <td>{{ studiul['Descriere'] }}</td>
+                <td>{{ studiul['Id_medicament'] }}</td>
+                <td>{{ studiul['Id_locatie'] }}</td>
+                <td>
+                    <!-- Edit Form -->
+                    <form method="post" action="/studii/edit/{{ studiul['Id_studiu'] }}" style="display: inline-block;">
+                        <input type="text" name="nume_studiu" value="{{ studiul['Nume_studiu'] }}" required>
+                        <input type="date" name="data_incepere" value="{{ studiul['Data_incepere'] }}" required>
+                        <input type="date" name="data_finalizare" value="{{ studiul['Data_finalizare'] }}" required>
+                        <input type="text" name="stadiu" value="{{ studiul['Stadiu'] }}" required>
+                        <textarea name="descriere" required>{{ studiul['Descriere'] }}</textarea>
+                        <input type="number" name="id_medicament" value="{{ studiul['Id_medicament'] }}" required>
+                        <input type="number" name="id_locatie" value="{{ studiul['Id_locatie'] }}" required>
+                        <button class="action-btn edit-btn" type="submit">Save</button>
+                    </form>
+                    <!-- Delete Button -->
+                    <form method="post" action="/studii/delete/{{ studiul['Id_studiu'] }}" style="display: inline-block;">
+                        <button class="action-btn delete-btn" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 <style>
     /* General table styling */
     table {
@@ -51,32 +111,105 @@
     th, td {
         border: none;
     }
-</style>
 
-<table border="1" style="width: 100%; border-collapse: collapse;">
-    <thead>
-        <tr>
-            <th>Id_studiu</th>
-            <th>Nume_studiu</th>
-            <th>Data_incepere</th>
-            <th>Data_finalizare</th>
-            <th>Stadiu</th>
-            <th>Descriere</th>
-            <th>Id_medicament</th>
-            <th>Id_locatie</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for medic in studii %}
-            <tr>
-                <td>{{ medic['Id_studiu'] }}</td> 
-                <td>{{ medic['Nume_studiu'] }}</td>      
-                <td>{{ medic['Data_incepere'] }}</td>   
-                <td>{{ medic['Data_finalizare'] }}</td>
-                <td>{{ medic['Stadiu'] }}</td>      
-                <td>{{ medic['Descriere'] }}</td>    
-                <td>{{ medic['Id_medicament'] }}</td>                 <td>{{ medic['Id_locatie'] }}</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    /* Styling for buttons */
+    .action-btn {
+        padding: 5px 10px;
+        font-size: 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+
+    .edit-btn {
+        background-color: #FFA726; /* Orange */
+        color: white;
+    }
+
+    .delete-btn {
+        background-color: #E57373; /* Red */
+        color: white;
+    }
+
+    .add-btn {
+        background-color: #4CAF50; /* Green */
+        color: white;
+        padding: 8px 12px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    /* Form styling */
+    form.add-form {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        gap: 15px;
+    }
+
+    /* Form title */
+    form.add-form h3 {
+        flex-basis: 100%;
+        font-size: 18px;
+        color: #333;
+        text-align: center;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    /* Input fields */
+    form.add-form input, form.add-form textarea {
+        flex: 1 1 calc(50% - 15px);
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    form.add-form input:focus, form.add-form textarea:focus {
+        border-color: #6EC1E4;
+        outline: none;
+        box-shadow: 0 0 5px rgba(110, 193, 228, 0.5);
+    }
+
+    /* Button styling */
+    form.add-form button.add-btn {
+        flex-basis: 100%;
+        padding: 12px;
+        font-size: 14px;
+        color: white;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    form.add-form button.add-btn:hover {
+        background-color: #43A047;
+        transform: scale(1.03);
+    }
+
+    /* Responsiveness */
+    @media (max-width: 600px) {
+        form.add-form input, form.add-form textarea {
+            flex-basis: 100%;
+        }
+
+        form.add-form button.add-btn {
+            flex-basis: 100%;
+        }
+    }
+</style>
