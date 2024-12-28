@@ -46,8 +46,7 @@
             background-color: #0056b3;
         }
 
-        /* Stil pentru secțiunea cu butoane de query */
-        .query-buttons-container {
+        .query-buttons-container, .complex-query-buttons-container {
             background-color: #ffffff;
             padding: 20px;
             border-radius: 8px;
@@ -56,23 +55,20 @@
             width: 80%;
         }
 
-        .query-buttons-container h2 {
+        .query-buttons-container h2, .complex-query-buttons-container h2 {
             margin-bottom: 20px;
             font-size: 18px;
         }
 
-        .query-buttons-container button {
+        .query-buttons-container button, .complex-query-buttons-container button {
             width: 200px;
             margin: 10px;
         }
-
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Dashboard</h1>
-        
-        <!-- Existing buttons for navigating to different sections -->
         <button id="pacientiButton">Pacienți</button>
         <button id="mediciButton">Medici</button>
         <button id="medicamenteButton">Medicamente</button>
@@ -80,19 +76,26 @@
         <button id="locatieButton">Locație</button>
     </div>
 
-    <!-- New section for JOIN operations -->
     <div class="query-buttons-container">
         <h2>Query-uri simple</h2>
         <button id="join1Button">Afiseaza studiile la care participa fiecare medic</button>
         <button id="join2Button">Afiseaza studiile la care participa fiecare pacient</button>
         <button id="join3Button">Afiseaza medicii care se ocupa de fiecare pacient</button>
-        <button id="join4Button">Afiseaza ce medicament se foloseste la fiecare studiu in ordine descrescatoare </button>
+        <button id="join4Button">Afiseaza ce medicament se foloseste la fiecare studiu in ordine descrescatoare</button>
         <button id="join5Button">Afiseaza studiile pentru locatiile care incep cu litera 'C'</button>
         <button id="join6Button">Afiseaza top 3 medici care lucreaza cele mai multe ore</button>
     </div>
 
+    <div class="complex-query-buttons-container">
+        <h2>Query-uri complexe</h2>
+        <button id="complex1Button">Afișează medicamentele testate doar in 'Bucuresti'</button>
+        <button id="complex2Button">Afișează medicamentele care nu sunt folosite in niciun studiu</button>
+        <button id="complex3Button">Afișează medicii care sunt responsabili de studiul clinic cu cei mai multi participanti</button>
+        <button id="complex4Button">Afișează studiile la care participa mai multe femei decat barbati</button>
+    </div>
+
     <script>
-        // Funcții pentru butoanele din dashboard
+        // Funcții pentru secțiunile existente
         document.getElementById('pacientiButton').onclick = function() {
             window.location.href = "{{url_for('pacienti')}}";
         };
@@ -113,7 +116,7 @@
             window.location.href = "{{url_for('locatie')}}";
         };
 
-        // Funcții pentru butoanele JOIN
+        // Funcții pentru query-uri simple
         document.getElementById('join1Button').onclick = function() {
             window.location.href = "{{url_for('join1')}}";
         };
@@ -136,6 +139,23 @@
 
         document.getElementById('join6Button').onclick = function() {
             window.location.href = "{{url_for('join6')}}";
+        };
+
+        // Funcții pentru query-uri complexe
+        document.getElementById('complex1Button').onclick = function() {
+            window.location.href = "{{url_for('complex1')}}";
+        };
+
+        document.getElementById('complex2Button').onclick = function() {
+            window.location.href = "{{url_for('complex2')}}";
+        };
+
+        document.getElementById('complex3Button').onclick = function() {
+            window.location.href = "{{url_for('complex3')}}";
+        };
+
+        document.getElementById('complex4Button').onclick = function() {
+            window.location.href = "{{url_for('complex4')}}";
         };
     </script>
 </body>

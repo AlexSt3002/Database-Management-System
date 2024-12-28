@@ -427,5 +427,78 @@ def join6():
           columns = result.keys()
       return render_template('join_results.html', rows=rows,columns=columns, query=" Medici Ore")
 
+@app.route('/complex1')
+def complex1():
+      with engine.connect() as conn:
+          result = conn.execute(text("""
+              SELECT md.nume_medicament, md.producator
+FROM Medicamente md
+WHERE md.Id_medicament IN (
+    SELECT sc.Id_medicament
+    FROM Studii_Clinice sc
+    WHERE sc.Id_locatie IN (
+        SELECT l.Id_locatie
+        FROM Locatie l
+        WHERE l.Oras = 'București'))
+          """))
+          rows = result.fetchall()
+          columns = result.keys()
+      return render_template('join_results.html', rows=rows,columns=columns, query=" Medici Ore")
+
+@app.route('/complex2')
+def complex2():
+      with engine.connect() as conn:
+          result = conn.execute(text("""
+              SELECT md.nume_medicament, md.producator
+FROM Medicamente md
+WHERE md.Id_medicament NOT IN (
+    SELECT sc.Id_medicament
+    FROM Studii_Clinice sc
+);
+          """))
+          rows = result.fetchall()
+          columns = result.keys()
+      return render_template('join_results.html', rows=rows,columns=columns, query=" Medici Ore")
+
+@app.route('/complex3')
+def complex3():
+      with engine.connect() as conn:
+          result = conn.execute(text("""
+              SELECT m.nume, m.specializare
+FROM Medici m
+WHERE m.Id_medic IN (
+    SELECT ms.Id_medic1
+    FROM Medici_studiu ms
+    WHERE ms.Id_studiu1 = (
+        SELECT ps.Id_studiu
+        FROM Participanti_studiu ps
+        GROUP BY ps.Id_studiu
+        ORDER BY COUNT(ps.Id_pacient) DESC
+        LIMIT 1
+    )
+);
+          """))
+          rows = result.fetchall()
+          columns = result.keys()
+      return render_template('join_results.html', rows=rows,columns=columns, query=" Medici Ore")
+
+@app.route('/complex4')
+def complex4():
+      with engine.connect() as conn:
+          result = conn.execute(text("""
+              SELECT sc.nume_studiu
+FROM Studii_Clinice sc
+WHERE sc.Id_studiu IN (
+    SELECT ps.Id_studiu
+    FROM Participanti_studiu ps
+    JOIN Pacienti p ON ps.Id_pacient = p.Id_pacient
+    GROUP BY ps.Id_studiu
+    HAVING SUM(CASE WHEN p.sex = 'F' THEN 1 ELSE 0 END) > 
+           SUM(CASE WHEN p.sex = 'M' THEN 1 ELSE 0 END)
+);
+          """))
+          rows = result.fetchall()
+          columns = result.keys()
+      return render_template('join_results.html', rows=rows,columns=columns, query=" Medici Ore")
 if __name__=='__main__':
   app.run(host='0.0.0.0',debug=True)
