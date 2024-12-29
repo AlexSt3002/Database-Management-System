@@ -53,8 +53,22 @@ def load_locatie():
         for row in rows:
             result_all.append(row)
         return result_all
-
-
+def load_medicistudiu():
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT * FROM Medici_studiu"))
+        result_all = []
+        rows = result.fetchall()
+        for row in rows:
+            result_all.append(row)
+        return result_all
+def load_participantistudiu():
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT * FROM Participanti_studiu"))
+        result_all = []
+        rows = result.fetchall()
+        for row in rows:
+            result_all.append(row)
+        return result_all
 @app.route('/')
 def hello_world():
     return render_template('home.html')
@@ -94,8 +108,81 @@ def locatie():
     locatie = load_locatie()
     return render_template('locatie.html', locatie=locatie)
 
+@app.route('/medici_studiu')
+def medici_studiu():
+    studii = load_medicistudiu()
+    return render_template('medici_studiu.html', studii=studii)
+
+@app.route('/participanti_studiu')
+def participanti_studiu():
+    studii = load_participantistudiu()
+    return render_template('participanti_studiu.html', studii=studii)
 
 # Cod pentru adaugare/stergere/editare elemente din fiecare tabel
+@app.route('/studiu/add', methods=['POST'])
+def add_medic_studiu():
+    id_studiu = request.form['id_studiu']
+    id_medic = request.form['id_medic']
+    nr_pacienti = request.form['nr_pacienti']
+    nr_ore = request.form['nr_ore']
+
+    with engine.connect() as conn:
+        conn.execute(
+            text("""
+                INSERT INTO Medici_studiu (Id_studiu1, Id_medic1, Nr_pacienti, Nr_ore) 
+                VALUES (:id_studiu, :id_medic, :nr_pacienti, :nr_ore)
+            """), {
+                "id_studiu": id_studiu,
+                "id_medic": id_medic,
+                "nr_pacienti": nr_pacienti,
+                "nr_ore": nr_ore
+            })
+        conn.commit()
+    return redirect(url_for('medici_studiu'))  
+
+@app.route('/medici_studiu/delete/<int:id_medic>/<int:id_studiu>', methods=['POST'])
+def delete_medic_studiu(id_medic, id_studiu):
+    
+    with engine.connect() as conn:
+        
+        conn.execute(
+            text("""Delete FROM Medici_studiu WHERE Id_medic1 = :id_medic AND Id_studiu1 = :id_studiu"""), 
+            {"id_medic": id_medic, "id_studiu": id_studiu}
+        )
+        conn.commit()
+    return redirect(url_for('medici_studiu'))
+@app.route('/participanti_studiu/add', methods=['POST'])
+def add_participanti_studiu():
+    id_pacient = request.form['id_pacient']
+    id_studiu = request.form['id_studiu']
+    data_inrolare = request.form['data_inrolare']
+    stare_participare = request.form['stare_participare']
+
+    with engine.connect() as conn:
+        conn.execute(
+            text("""
+                INSERT INTO Participanti_studiu (Id_pacient, Id_studiu, Data_inrolare, Stare_participare) 
+                VALUES (:id_pacient, :id_studiu, :data_inrolare, :stare_participare)
+            """), {
+                "id_pacient": id_pacient,
+                "id_studiu": id_studiu,
+                "data_inrolare": data_inrolare,
+                "stare_participare": stare_participare
+            })
+        conn.commit()
+    return redirect(url_for('participanti_studiu'))  
+@app.route('/participanti_studiu/delete/<int:id_pacient>/<int:id_studiu>', methods=['POST'])
+def delete_participanti_studiu(id_pacient, id_studiu):
+    
+    with engine.connect() as conn:
+       
+        conn.execute(
+            text("""Delete FROM Participanti_studiu WHERE Id_pacient = :id_pacient AND Id_studiu = :id_studiu"""), 
+            {"id_pacient": id_pacient, "id_studiu": id_studiu}
+        )
+        conn.commit()
+    return redirect(url_for('participanti_studiu'))
+    
 @app.route('/medici/add', methods=['POST'])
 def add_medic():
     nume = request.form['nume']
@@ -149,9 +236,27 @@ def edit_medic(id):
 @app.route('/medici/delete/<int:id>', methods=['POST'])
 def delete_medic(id):
     with engine.connect() as conn:
+        conn.execute(text("""DELETE FROM Participanti_studiu 
+WHERE Id_pacient IN (
+    SELECT p.Id_pacient
+    FROM Pacienti p
+    WHERE p.Id_medic = :id
+);"""),
+                     {"id": id})
+        conn.commit()
+        with engine.connect() as conn:
+            conn.execute(text("""DELETE FROM Pacienti WHERE Id_medic=:id"""),
+                         {"id": id})
+            conn.commit()
+    with engine.connect() as conn:
+        conn.execute(text("""DELETE FROM Medici_studiu WHERE Id_medic1=:id"""),
+                     {"id": id})
+        conn.commit()
+    with engine.connect() as conn:
         conn.execute(text("""DELETE FROM Medici WHERE Id_medic=:id"""),
                      {"id": id})
         conn.commit()
+        
     return redirect(url_for('medici'))
 
 
@@ -201,6 +306,11 @@ def edit_medicament(id):
 
 @app.route('/medicamente/delete/<int:id>', methods=['POST'])
 def delete_medicament(id):
+    with engine.connect() as conn:
+        conn.execute(
+            text("""DELETE FROM Studii_Clinice WHERE Id_medicament=:id"""),
+            {"id": id})
+        conn.commit()
     with engine.connect() as conn:
         conn.execute(
             text("""DELETE FROM Medicamente WHERE Id_medicament=:id"""),
@@ -273,9 +383,16 @@ def edit_pacient(id):
 @app.route('/pacienti/delete/<int:id>', methods=['POST'])
 def delete_pacient(id):
     with engine.connect() as conn:
-        conn.execute(text("DELETE FROM Pacienti WHERE Id_pacient=:id"),
+        conn.execute(text(""" DELETE FROM Participanti_studiu WHERE Id_pacient =:id;
+        """
+        ),
                      {"id": id})
         conn.commit()
+        with engine.connect() as conn:
+            conn.execute(text(""" DELETE FROM Pacienti WHERE Id_pacient=:id"""
+            ),
+                         {"id": id})
+            conn.commit()
     return redirect(url_for('pacienti'))
 
 
@@ -335,6 +452,11 @@ def edit_locatie(id):
 
 @app.route('/locatie/delete/<int:id>', methods=['POST'])
 def delete_locatie(id):
+    with engine.connect() as conn:
+        conn.execute(
+            text("""DELETE FROM Studii_Clinice WHERE Id_locatie=:id"""),
+            {"id": id})
+        conn.commit()
     with engine.connect() as conn:
         conn.execute(text("""DELETE FROM Locatie WHERE Id_locatie=:id"""),
                      {"id": id})
@@ -398,6 +520,16 @@ def edit_studiu(id):
 
 @app.route('/studii/delete/<int:id>', methods=['POST'])
 def delete_studiu(id):
+    with engine.connect() as conn:
+        conn.execute(
+            text("""DELETE FROM Medici_studiu WHERE Id_studiu1=:id"""),
+            {"id": id})
+        conn.commit()
+        with engine.connect() as conn:
+            conn.execute(
+                text("""DELETE FROM Participanti_studiu WHERE Id_studiu=:id"""),
+                {"id": id})
+            conn.commit()
     with engine.connect() as conn:
         conn.execute(
             text("""DELETE FROM Studii_Clinice WHERE Id_studiu=:id"""),

@@ -1,0 +1,160 @@
+<!--Pagina pentru gestionarea tabelului medici_studiu-->
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-family: 'Arial', sans-serif;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    thead th {
+        background-color: #6EC1E4;
+        color: #ffffff;
+        padding: 12px;
+        font-size: 15px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    tbody tr {
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #E8F4FA;
+    }
+
+    tbody tr:nth-child(odd) {
+        background-color: #FFFFFF;
+    }
+
+    tbody td {
+        padding: 10px;
+        font-size: 14px;
+        text-align: center;
+        color: #555;
+    }
+
+    tbody tr:hover {
+        background-color: #C5EAF7;
+        cursor: pointer;
+    }
+
+    .action-btn {
+        padding: 5px 10px;
+        font-size: 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+
+    .edit-btn {
+        background-color: #FFA726;
+        color: white;
+    }
+
+    .delete-btn {
+        background-color: #E57373;
+        color: white;
+    }
+
+    form.add-form {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        gap: 15px;
+    }
+
+    form.add-form input {
+        flex: 1 1 calc(50% - 15px);
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    form.add-form input:focus {
+        border-color: #6EC1E4;
+        outline: none;
+        box-shadow: 0 0 5px rgba(110, 193, 228, 0.5);
+    }
+
+    form.add-form button.add-btn {
+        flex-basis: 100%;
+        padding: 12px;
+        font-size: 14px;
+        color: white;
+        background-color: #4CAF50;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        text-transform: uppercase;
+        transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    form.add-form button.add-btn:hover {
+        background-color: #43A047;
+        transform: scale(1.03);
+    }
+
+    @media (max-width: 600px) {
+        form.add-form input {
+            flex-basis: 100%;
+        }
+        form.add-form button.add-btn {
+            flex-basis: 100%;
+        }
+    }
+</style>
+<!-- Formular pentru adăugare Studiu -->
+<form method="post" action="/studiu/add" class="add-form">
+    <h3>Adaugare Studiu</h3>
+    <input type="text" name="id_studiu" placeholder="ID Studiu" required>
+    <input type="text" name="id_medic" placeholder="ID Medic" required>
+    <input type="number" name="nr_ore" placeholder="Nr Ore" required>
+    <input type="number" name="nr_pacienti" placeholder="Nr Pacienti" required>
+    <button class="add-btn" type="submit">Add</button>
+</form>
+
+<!-- Tabel pentru gestionarea Studiilor -->
+<table>
+    <thead>
+        <tr>
+            <th>Id_studiu1</th>
+            <th>Id_medic1</th>
+            <th>Nr_ore</th>
+            <th>Nr_pacienti</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for studiu in studii %}
+            <tr>
+                <td>{{ studiu['Id_studiu1'] }}</td>
+                <td>{{ studiu['Id_medic1'] }}</td>
+                <td>{{ studiu['Nr_ore'] }}</td>
+                <td>{{ studiu['Nr_pacienti'] }}</td>
+                <td>
+                    
+
+                    <!-- Formular pentru ștergere -->
+                    <form method="post" action="/medici_studiu/delete/{{ studiu['Id_medic1'] }}/{{ studiu['Id_studiu1'] }}" style="display: inline-block;">
+                        <button class="action-btn delete-btn" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

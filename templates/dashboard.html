@@ -75,6 +75,8 @@
         <button id="medicamenteButton">Medicamente</button>
         <button id="studiiCliniceButton">Studii Clinice</button>
         <button id="locatieButton">Locație</button>
+        <button id="medicisButton">Medici Studiu</button>
+        <button id="participantisButton">Participanti Studiu</button>
     </div>
 
     <div class="query-buttons-container">
@@ -117,8 +119,12 @@
         document.getElementById('locatieButton').onclick = function() {
             window.location.href = "{{url_for('locatie')}}";
         };
-
-       
+        document.getElementById('medicisButton').onclick = function() {
+            window.location.href = "{{url_for('medici_studiu')}}";
+        };
+        document.getElementById('participantisButton').onclick = function() {
+            window.location.href = "{{url_for('participanti_studiu')}}";
+        };
         document.getElementById('join1Button').onclick = function() {
             window.location.href = "{{url_for('join1')}}";
         };
