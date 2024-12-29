@@ -1,3 +1,4 @@
+<!--Pagina pentru gestionarea tabelului pacienti-->
 <style>
     table {
         width: 100%;
@@ -10,7 +11,7 @@
     }
 
     thead th {
-        background-color: #6EC1E4; /* Soft blue */
+        background-color: #6EC1E4; 
         color: #ffffff;
         padding: 12px;
         font-size: 15px;
@@ -23,11 +24,11 @@
     }
 
     tbody tr:nth-child(even) {
-        background-color: #E8F4FA; /* Light blue */
+        background-color: #E8F4FA; 
     }
 
     tbody tr:nth-child(odd) {
-        background-color: #FFFFFF; /* White */
+        background-color: #FFFFFF; 
     }
 
     tbody td {
@@ -38,7 +39,7 @@
     }
 
     tbody tr:hover {
-        background-color: #C5EAF7; /* Slightly darker blue */
+        background-color: #C5EAF7; 
         cursor: pointer;
     }
 
@@ -46,7 +47,7 @@
         border: none;
     }
 
-    /* Form styling */
+    
     form.add-form {
         display: flex;
         flex-wrap: wrap;
@@ -114,7 +115,7 @@
     }
 </style>
 
-<!-- Add Patient Form -->
+
 <form method="post" action="/pacienti/add" class="add-form">
     <h3>Adaugare Pacient</h3>
     <input type="text" name="nume" placeholder="Nume" required>
@@ -156,7 +157,7 @@
                 <td>{{ pacient['Telefon'] }}</td>
                 <td>{{ pacient['Id_medic'] }}</td>
                 <td>
-                    <!-- Edit Form -->
+                    
                     <form method="post" action="/pacienti/edit/{{ pacient['Id_pacient'] }}" style="display: inline-block;">
                         <input type="text" name="nume" value="{{ pacient['Nume'] }}" required>
                         <input type="text" name="prenume" value="{{ pacient['Prenume'] }}" required>
@@ -168,7 +169,7 @@
                         <input type="text" name="id_medic" value="{{ pacient['Id_medic'] }}" required>
                         <button class="action-btn edit-btn" type="submit">Save</button>
                     </form>
-                    <!-- Delete Button -->
+                    
                     <form method="post" action="/pacienti/delete/{{ pacient['Id_pacient'] }}" style="display: inline-block;">
                         <button class="action-btn delete-btn" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
                     </form>

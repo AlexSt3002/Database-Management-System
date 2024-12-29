@@ -1,4 +1,4 @@
-<!-- Add Studiu Form -->
+<!--Pagina pentru gestionarea tabelului studii_clinice-->
 <form method="post" action="/studii/add" class="add-form">
     <h3>Adaugare Studiu</h3>
     <input type="text" name="nume_studiu" placeholder="Nume Studiu" required>
@@ -11,7 +11,7 @@
     <button class="add-btn" type="submit">Add</button>
 </form>
 
-<!-- Studiu Table -->
+
 <table>
     <thead>
         <tr>
@@ -38,7 +38,7 @@
                 <td>{{ studiul['Id_medicament'] }}</td>
                 <td>{{ studiul['Id_locatie'] }}</td>
                 <td>
-                    <!-- Edit Form -->
+                    
                     <form method="post" action="/studii/edit/{{ studiul['Id_studiu'] }}" style="display: inline-block;">
                         <input type="text" name="nume_studiu" value="{{ studiul['Nume_studiu'] }}" required>
                         <input type="date" name="data_incepere" value="{{ studiul['Data_incepere'] }}" required>
@@ -49,7 +49,7 @@
                         <input type="number" name="id_locatie" value="{{ studiul['Id_locatie'] }}" required>
                         <button class="action-btn edit-btn" type="submit">Save</button>
                     </form>
-                    <!-- Delete Button -->
+                    
                     <form method="post" action="/studii/delete/{{ studiul['Id_studiu'] }}" style="display: inline-block;">
                         <button class="action-btn delete-btn" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
                     </form>
@@ -60,7 +60,7 @@
 </table>
 
 <style>
-    /* General table styling */
+    
     table {
         width: 100%;
         border-collapse: collapse;
@@ -71,9 +71,9 @@
         overflow: hidden;
     }
 
-    /* Header row styling */
+    
     thead th {
-        background-color: #6EC1E4; /* Soft blue */
+        background-color: #6EC1E4; 
         color: #ffffff;
         padding: 12px;
         font-size: 15px;
@@ -81,17 +81,17 @@
         text-transform: uppercase;
     }
 
-    /* Body row styling */
+    
     tbody tr {
         border-bottom: 1px solid #e0e0e0;
     }
 
     tbody tr:nth-child(even) {
-        background-color: #E8F4FA; /* Light blue */
+        background-color: #E8F4FA; 
     }
 
     tbody tr:nth-child(odd) {
-        background-color: #FFFFFF; /* White */
+        background-color: #FFFFFF; 
     }
 
     tbody td {
@@ -101,18 +101,18 @@
         color: #555;
     }
 
-    /* Hover effect for rows */
+    
     tbody tr:hover {
-        background-color: #C5EAF7; /* Slightly darker blue */
+        background-color: #C5EAF7; 
         cursor: pointer;
     }
 
-    /* Border styling */
+    
     th, td {
         border: none;
     }
 
-    /* Styling for buttons */
+    
     .action-btn {
         padding: 5px 10px;
         font-size: 12px;
@@ -123,17 +123,17 @@
     }
 
     .edit-btn {
-        background-color: #FFA726; /* Orange */
+        background-color: #FFA726; 
         color: white;
     }
 
     .delete-btn {
-        background-color: #E57373; /* Red */
+        background-color: #E57373; 
         color: white;
     }
 
     .add-btn {
-        background-color: #4CAF50; /* Green */
+        background-color: #4CAF50; 
         color: white;
         padding: 8px 12px;
         font-size: 14px;
@@ -142,7 +142,7 @@
         cursor: pointer;
     }
 
-    /* Form styling */
+    
     form.add-form {
         display: flex;
         flex-wrap: wrap;
@@ -156,7 +156,7 @@
         gap: 15px;
     }
 
-    /* Form title */
+    
     form.add-form h3 {
         flex-basis: 100%;
         font-size: 18px;
@@ -166,7 +166,7 @@
         font-weight: bold;
     }
 
-    /* Input fields */
+    
     form.add-form input, form.add-form textarea {
         flex: 1 1 calc(50% - 15px);
         padding: 10px;
@@ -182,7 +182,7 @@
         box-shadow: 0 0 5px rgba(110, 193, 228, 0.5);
     }
 
-    /* Button styling */
+    
     form.add-form button.add-btn {
         flex-basis: 100%;
         padding: 12px;
@@ -202,7 +202,7 @@
         transform: scale(1.03);
     }
 
-    /* Responsiveness */
+    
     @media (max-width: 600px) {
         form.add-form input, form.add-form textarea {
             flex-basis: 100%;

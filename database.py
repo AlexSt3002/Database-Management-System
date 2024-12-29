@@ -1,4 +1,5 @@
-from sqlalchemy import create_engine, text
+
+from sqlalchemy import create_engine
 
   # Configurația pentru conexiune
 conf = {
@@ -6,7 +7,7 @@ conf = {
       'port': '16871',
       'user': "avnadmin",
       'password': "AVNS_G86nntv5hQTv7VIITFG",
-      'database': "PROIECT"  # Specifică numele bazei de date
+      'database': "PROIECT"  
   }
 
   # Creează engine-ul pentru MySQL folosind pymysql

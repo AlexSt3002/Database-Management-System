@@ -1,3 +1,4 @@
+<!--Pagina pentru gestionarea tabelului medicamente-->
 <style>
     table {
         width: 100%;
@@ -10,7 +11,7 @@
     }
 
     thead th {
-        background-color: #6EC1E4; /* Soft blue */
+        background-color: #6EC1E4; 
         color: #ffffff;
         padding: 12px;
         font-size: 15px;
@@ -23,11 +24,11 @@
     }
 
     tbody tr:nth-child(even) {
-        background-color: #E8F4FA; /* Light blue */
+        background-color: #E8F4FA; 
     }
 
     tbody tr:hover {
-        background-color: #C5EAF7; /* Slightly darker blue */
+        background-color: #C5EAF7; 
         cursor: pointer;
     }
 
@@ -47,17 +48,17 @@
     }
 
     .edit-btn {
-        background-color: #FFA726; /* Orange */
+        background-color: #FFA726; 
         color: white;
     }
 
     .delete-btn {
-        background-color: #E57373; /* Red */
+        background-color: #E57373; 
         color: white;
     }
 
     .add-btn {
-        background-color: #4CAF50; /* Green */
+        background-color: #4CAF50; 
         color: white;
         padding: 8px 12px;
         font-size: 14px;
@@ -65,23 +66,23 @@
         border-radius: 4px;
         cursor: pointer;
     }
-    /* Stilizare pentru formular landscape */
+    
     form.add-form {
         display: flex;
-        flex-wrap: wrap; /* Permite mai multe linii în cazul ecranului mic */
-        max-width: 800px; /* Lățime maximă */
-        margin: 20px auto; /* Centrare pe pagină */
+        flex-wrap: wrap; 
+        max-width: 800px; 
+        margin: 20px auto; 
         padding: 20px;
         background-color: #f9f9f9;
         border: 1px solid #ddd;
         border-radius: 8px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        gap: 15px; /* Spațiu între câmpuri */
+        gap: 15px; 
     }
 
-    /* Titlul formularului */
+    
     form.add-form h3 {
-        flex-basis: 100%; /* Ocupă toată lățimea */
+        flex-basis: 100%; 
         font-size: 18px;
         color: #333;
         text-align: center;
@@ -89,9 +90,9 @@
         font-weight: bold;
     }
 
-    /* Câmpurile de input */
+    
     form.add-form input {
-        flex: 1 1 calc(50% - 15px); /* Ocupă jumătate din lățime minus spațiu */
+        flex: 1 1 calc(50% - 15px); 
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 6px;
@@ -105,9 +106,9 @@
         box-shadow: 0 0 5px rgba(110, 193, 228, 0.5);
     }
 
-    /* Butonul de adăugare */
+    
     form.add-form button.add-btn {
-        flex-basis: 100%; /* Ocupă toată lățimea */
+        flex-basis: 100%; 
         padding: 12px;
         font-size: 14px;
         color: white;
@@ -125,19 +126,19 @@
         transform: scale(1.03);
     }
 
-    /* Responsivitate */
+    
     @media (max-width: 600px) {
         form.add-form input {
-            flex-basis: 100%; /* Pe ecrane mici, câmpurile ocupă toată lățimea */
+            flex-basis: 100%; 
         }
 
         form.add-form button.add-btn {
-            flex-basis: 100%; /* Butonul rămâne pe o linie separată */
+            flex-basis: 100%; 
         }
     }
 </style>
 
-<!-- Add Medicament Form -->
+
 <form method="post" action="/medicamente/add" class="add-form">
     <h3>Adaugare Medicament</h3>
     <input type="text" name="nume_medicament" placeholder="Nume_medicament" required>
@@ -167,7 +168,7 @@
                 <td>{{ medicament['Doza'] }}</td>
                 <td>{{ medicament['Producator'] }}</td>
                 <td>
-                    <!-- Edit Form -->
+                    
                     <form method="post" action="/medicamente/edit/{{ medicament['Id_medicament'] }}" style="display: inline-block;">
                         <input type="text" name="nume_medicament" value="{{ medicament['Nume_medicament'] }}" required>
                         <input type="text" name="efecte_adverse" value="{{ medicament['Efecte_adverse'] }}" required>
@@ -175,7 +176,7 @@
                         <input type="text" name="producator" value="{{ medicament['Producator'] }}" required>
                         <button class="action-btn edit-btn" type="submit">Save</button>
                     </form>
-                    <!-- Delete Button -->
+                    
                     <form method="post" action="/medicamente/delete/{{ medicament['Id_medicament'] }}" style="display: inline-block;">
                         <button class="action-btn delete-btn" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
                     </form>

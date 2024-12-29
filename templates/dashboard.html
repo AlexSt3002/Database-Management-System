@@ -1,3 +1,4 @@
+<!-- Pagina pentru selectarea tabelelor sau a interogarilor -->
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -91,11 +92,12 @@
         <button id="complex1Button">Afișează medicamentele testate doar in 'Bucuresti'</button>
         <button id="complex2Button">Afișează medicamentele care nu sunt folosite in niciun studiu</button>
         <button id="complex3Button">Afișează medicii care sunt responsabili de studiul clinic cu cei mai multi participanti</button>
-        <button id="complex4Button">Afișează studiile la care participa mai multe femei decat barbati</button>
+        <button id="complex4Button">Afișează studiile la care participa mai multe femei deca</button>
     </div>
 
     <script>
-        // Funcții pentru secțiunile existente
+        
+        
         document.getElementById('pacientiButton').onclick = function() {
             window.location.href = "{{url_for('pacienti')}}";
         };
@@ -116,7 +118,7 @@
             window.location.href = "{{url_for('locatie')}}";
         };
 
-        // Funcții pentru query-uri simple
+       
         document.getElementById('join1Button').onclick = function() {
             window.location.href = "{{url_for('join1')}}";
         };
@@ -141,7 +143,7 @@
             window.location.href = "{{url_for('join6')}}";
         };
 
-        // Funcții pentru query-uri complexe
+        
         document.getElementById('complex1Button').onclick = function() {
             window.location.href = "{{url_for('complex1')}}";
         };

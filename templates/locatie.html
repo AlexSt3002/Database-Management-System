@@ -1,5 +1,6 @@
+<!--Pagina pentru gestionarea tabelului locatie-->
 <style>
-    /* General table styling */
+    
     table {
         width: 100%;
         border-collapse: collapse;
@@ -10,9 +11,9 @@
         overflow: hidden;
     }
 
-    /* Header row styling */
+    
     thead th {
-        background-color: #6EC1E4; /* Soft blue */
+        background-color: #6EC1E4; 
         color: #ffffff;
         padding: 12px;
         font-size: 15px;
@@ -20,17 +21,17 @@
         text-transform: uppercase;
     }
 
-    /* Body row styling */
+    
     tbody tr {
         border-bottom: 1px solid #e0e0e0;
     }
 
     tbody tr:nth-child(even) {
-        background-color: #E8F4FA; /* Light blue */
+        background-color: #E8F4FA; 
     }
 
     tbody tr:nth-child(odd) {
-        background-color: #FFFFFF; /* White */
+        background-color: #FFFFFF; 
     }
 
     tbody td {
@@ -40,13 +41,13 @@
         color: #555;
     }
 
-    /* Hover effect for rows */
+    
     tbody tr:hover {
-        background-color: #C5EAF7; /* Slightly darker blue */
+        background-color: #C5EAF7; 
         cursor: pointer;
     }
 
-    /* Action buttons */
+    
     .action-btn {
         padding: 5px 10px;
         font-size: 12px;
@@ -57,16 +58,16 @@
     }
 
     .edit-btn {
-        background-color: #FFA726; /* Orange */
+        background-color: #FFA726; 
         color: white;
     }
 
     .delete-btn {
-        background-color: #E57373; /* Red */
+        background-color: #E57373; 
         color: white;
     }
 
-    /* Add location form styling */
+    
     form.add-form {
         display: flex;
         flex-wrap: wrap;
@@ -114,7 +115,7 @@
         transform: scale(1.03);
     }
 
-    /* Responsiveness */
+    
     @media (max-width: 600px) {
         form.add-form input {
             flex-basis: 100%;
@@ -125,7 +126,7 @@
     }
 </style>
 
-<!-- Add Location Form -->
+
 <form method="post" action="/locatie/add" class="add-form">
     <h3>Adaugare Locatie</h3>
     <input type="text" name="nume_locatie" placeholder="Nume Locatie" required>
@@ -164,7 +165,7 @@
                 <td>{{ locatie['Telefon_contact'] }}</td>
                 <td>{{ locatie['Email'] }}</td>
                 <td>
-                    <!-- Edit Form -->
+                    
                     <form method="post" action="/locatie/edit/{{ locatie['Id_locatie'] }}" style="display: inline-block;">
                         <input type="text" name="nume_locatie" value="{{ locatie['Nume_locatie'] }}" required>
                         <input type="text" name="adresa" value="{{ locatie['Adresa'] }}" required>
@@ -175,7 +176,7 @@
                         <input type="email" name="email" value="{{ locatie['Email'] }}" required>
                         <button class="action-btn edit-btn" type="submit">Save</button>
                     </form>
-                    <!-- Delete Button -->
+                    
                     <form method="post" action="/locatie/delete/{{ locatie['Id_locatie'] }}" style="display: inline-block;">
                         <button class="action-btn delete-btn" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
                     </form>
