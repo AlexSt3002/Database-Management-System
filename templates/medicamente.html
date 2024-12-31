@@ -147,7 +147,18 @@
     <input type="text" name="producator" placeholder="Producator" required>
     <button class="add-btn" type="submit">Add</button>
 </form>
-
+<form method="get" action="/medicamente/search" style="margin-bottom: 20px;">
+    <div style="display: flex; gap: 15px; justify-content: center;">
+        <select name="search_by" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+            <option value="nume_medicament">Nume_medicament</option>
+            <option value="efecte_adverse">Efecte_adverse</option>
+            <option value="doza">Doza</option>
+            <option value="producator">Producator</option>
+        </select>
+        <input type="text" name="search_value" placeholder="Căutați..." style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; width: 200px;">
+        <button type="submit" class="add-btn" style="padding: 10px 20px; font-size: 14px; color: white; background-color: #4CAF50; border: none; border-radius: 6px;">Căutare</button>
+    </div>
+</form>
 <table>
     <thead>
         <tr>

@@ -69,6 +69,116 @@ def load_participantistudiu():
         for row in rows:
             result_all.append(row)
         return result_all
+def search_pacienti1(search_by, search_value):
+    with engine.connect() as conn:
+        # Asigură-te că search_by și search_value sunt corect sanitizate
+        query = text(f"SELECT * FROM Pacienti WHERE {search_by} LIKE :search_value")
+        result = conn.execute(query, {'search_value': f"%{search_value}%"})
+        rows = result.fetchall()
+        result_all = []
+        for row in rows:
+            result_all.append(row)
+        return result_all
+@app.route('/pacienti/search', methods=['GET'])
+def search_pacienti():
+    search_by = request.args.get('search_by')
+    search_value = request.args.get('search_value')
+
+    if search_by and search_value:
+        # Apelăm funcția de căutare cu câmpul și valoarea de căutare
+        pacienti_gasiti = search_pacienti1(search_by, search_value)
+    else:
+        pacienti_gasiti = []
+
+    return render_template('pacienti.html', pacienti=pacienti_gasiti)
+def search_medici1(search_by, search_value):
+    with engine.connect() as conn:
+        # Asigură-te că search_by și search_value sunt corect sanitizate
+        query = text(f"SELECT * FROM Medici WHERE {search_by} LIKE :search_value")
+        result = conn.execute(query, {'search_value': f"%{search_value}%"})
+        rows = result.fetchall()
+        result_all = []
+        for row in rows:
+            result_all.append(row)
+        return result_all
+@app.route('/medici/search', methods=['GET'])
+def search_medici():
+    search_by = request.args.get('search_by')
+    search_value = request.args.get('search_value')
+
+    if search_by and search_value:
+        # Apelăm funcția de căutare cu câmpul și valoarea de căutare
+        pacienti_gasiti = search_medici1(search_by, search_value)
+    else:
+        pacienti_gasiti = []
+
+    return render_template('medici.html', medici=pacienti_gasiti)
+def search_medicamente1(search_by, search_value):
+    with engine.connect() as conn:
+        # Asigură-te că search_by și search_value sunt corect sanitizate
+        query = text(f"SELECT * FROM Medicamente WHERE {search_by} LIKE :search_value")
+        result = conn.execute(query, {'search_value': f"%{search_value}%"})
+        rows = result.fetchall()
+        result_all = []
+        for row in rows:
+            result_all.append(row)
+        return result_all
+@app.route('/medicamente/search', methods=['GET'])
+def search_medicamente():
+    search_by = request.args.get('search_by')
+    search_value = request.args.get('search_value')
+
+    if search_by and search_value:
+        # Apelăm funcția de căutare cu câmpul și valoarea de căutare
+        pacienti_gasiti = search_medicamente1(search_by, search_value)
+    else:
+        pacienti_gasiti = []
+
+    return render_template('medicamente.html', medicamente=pacienti_gasiti)
+def search_studii1(search_by, search_value):
+    with engine.connect() as conn:
+        # Asigură-te că search_by și search_value sunt corect sanitizate
+        query = text(f"SELECT * FROM Studii_Clinice WHERE {search_by} LIKE :search_value")
+        result = conn.execute(query, {'search_value': f"%{search_value}%"})
+        rows = result.fetchall()
+        result_all = []
+        for row in rows:
+            result_all.append(row)
+        return result_all
+@app.route('/studii/search', methods=['GET'])
+def search_studii():
+    search_by = request.args.get('search_by')
+    search_value = request.args.get('search_value')
+
+    if search_by and search_value:
+        # Apelăm funcția de căutare cu câmpul și valoarea de căutare
+        pacienti_gasiti = search_studii1(search_by, search_value)
+    else:
+        pacienti_gasiti = []
+
+    return render_template('studii.html', studii=pacienti_gasiti)
+def search_locatie1(search_by, search_value):
+    with engine.connect() as conn:
+        # Asigură-te că search_by și search_value sunt corect sanitizate
+        query = text(f"SELECT * FROM Locatie WHERE {search_by} LIKE :search_value")
+        result = conn.execute(query, {'search_value': f"%{search_value}%"})
+        rows = result.fetchall()
+        result_all = []
+        for row in rows:
+            result_all.append(row)
+        return result_all
+@app.route('/locatie/search', methods=['GET'])
+def search_locatie():
+    search_by = request.args.get('search_by')
+    search_value = request.args.get('search_value')
+
+    if search_by and search_value:
+        # Apelăm funcția de căutare cu câmpul și valoarea de căutare
+        pacienti_gasiti = search_locatie1(search_by, search_value)
+    else:
+        pacienti_gasiti = []
+
+    return render_template('locatie.html', locatie=pacienti_gasiti)
 @app.route('/')
 def hello_world():
     return render_template('home.html')

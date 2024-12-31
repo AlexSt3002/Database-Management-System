@@ -10,7 +10,19 @@
     <input type="number" name="id_locatie" placeholder="Id Locatie" required>
     <button class="add-btn" type="submit">Add</button>
 </form>
-
+<form method="get" action="/studii/search" style="margin-bottom: 20px;">
+    <div style="display: flex; gap: 15px; justify-content: center;">
+        <select name="search_by" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+            <option value="nume_studiu">Nume_studiu</option>
+            <option value="data_incepere">Data_incepere</option>
+            <option value="data_finalizare">Data_finalizare</option>
+            <option value="stadiu">Stadiu</option>
+            <option value="descriere">Descriere</option>
+        </select>
+        <input type="text" name="search_value" placeholder="Căutați..." style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; width: 200px;">
+        <button type="submit" class="add-btn" style="padding: 10px 20px; font-size: 14px; color: white; background-color: #4CAF50; border: none; border-radius: 6px;">Căutare</button>
+    </div>
+</form>
 
 <table>
     <thead>

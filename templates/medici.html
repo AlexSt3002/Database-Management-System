@@ -149,7 +149,20 @@
     <input type="text" name="spital" placeholder="Spital" required>
     <button class="add-btn" type="submit">Add</button>
 </form>
-
+<form method="get" action="/medici/search" style="margin-bottom: 20px;">
+    <div style="display: flex; gap: 15px; justify-content: center;">
+        <select name="search_by" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+            <option value="nume">Nume</option>
+            <option value="prenume">Prenume</option>
+            <option value="specializare">Specializare</option>
+            <option value="email">E-mail</option>
+            <option value="telefon">Telefon</option>
+            <option value="spital">Spital</option>
+        </select>
+        <input type="text" name="search_value" placeholder="Căutați..." style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; width: 200px;">
+        <button type="submit" class="add-btn" style="padding: 10px 20px; font-size: 14px; color: white; background-color: #4CAF50; border: none; border-radius: 6px;">Căutare</button>
+    </div>
+</form>
 <table>
     <thead>
         <tr>

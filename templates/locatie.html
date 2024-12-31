@@ -138,7 +138,21 @@
     <input type="email" name="email" placeholder="Email" required>
     <button class="add-btn" type="submit">Add</button>
 </form>
-
+<form method="get" action="/locatie/search" style="margin-bottom: 20px;">
+    <div style="display: flex; gap: 15px; justify-content: center;">
+        <select name="search_by" style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+            <option value="nume_locatie">Nume_locatie</option>
+            <option value="adresa">Adresa</option>
+            <option value="oras">Oras</option>
+            <option value="judet">Judet</option>
+            <option value="cod_postal">Cod_postal</option>
+            <option value="telefon_contact">Telefon_contact</option>
+            <option value="email">Email</option>
+        </select>
+        <input type="text" name="search_value" placeholder="Căutați..." style="padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; width: 200px;">
+        <button type="submit" class="add-btn" style="padding: 10px 20px; font-size: 14px; color: white; background-color: #4CAF50; border: none; border-radius: 6px;">Căutare</button>
+    </div>
+</form>
 <table>
     <thead>
         <tr>
