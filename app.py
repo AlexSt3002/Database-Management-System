@@ -752,26 +752,31 @@ def join4():
 
 @app.route('/join5')
 def join5():
-    with engine.connect() as conn:
-        result = conn.execute(
-            text("""
+        # Preluăm litera din parametrii URL (ex: ?litera=C)
+        litera = request.args.get('litera', 'C')  # Valoare implicită: 'C'
 
-        SELECT 
-            loc.Nume_locatie,
-            stud.Nume_studiu
-            
-        FROM 
-            Studii_Clinice stud
-        JOIN 
-            Locatie loc ON stud.Id_locatie = loc.Id_locatie
-        Where loc.Nume_locatie Like 'C%';
-        """))
-        rows = result.fetchall()
-        columns = result.keys()
-    return render_template('join_results.html',
-                           rows=rows,
-                           columns=columns,
-                           query=" Locatie C Studii")
+        with engine.connect() as conn:
+            result = conn.execute(
+                text("""
+                    SELECT 
+                        loc.Nume_locatie,
+                        stud.Nume_studiu
+                    FROM 
+                        Studii_Clinice stud
+                    JOIN 
+                        Locatie loc ON stud.Id_locatie = loc.Id_locatie
+                    WHERE loc.Nume_locatie LIKE :litera || '%';
+                """),
+                {"litera": litera}  # Transmiterea parametrului
+            )
+            rows = result.fetchall()
+            columns = result.keys()
+
+        return render_template('join_results.html',
+                               rows=rows,
+                               columns=columns,
+                               query=f"Locații care încep cu '{litera}' și studiile asociate")
+
 
 
 
@@ -800,22 +805,29 @@ def join6():
 
 @app.route('/complex1')
 def complex1():
-    with engine.connect() as conn:
-        result = conn.execute(
-            text("""
-              SELECT md.nume_medicament, md.producator
-FROM Medicamente md
-WHERE md.Id_medicament IN (
-    SELECT sc.Id_medicament
-    FROM Studii_Clinice sc
-    WHERE sc.Id_locatie IN (
-        SELECT l.Id_locatie
-        FROM Locatie l
-        WHERE l.Oras = 'București'))
-          """))
+        # Preluăm localitatea din parametrii URL (ex: ?localitate=București)
+        localitate = request.args.get('localitate', 'București')  # Valoare implicită: 'București'
+
+        with engine.connect() as conn:
+            result = conn.execute(
+                text("""
+                  SELECT md.nume_medicament, md.producator
+                  FROM Medicamente md
+                  WHERE md.Id_medicament IN (
+                      SELECT sc.Id_medicament
+                      FROM Studii_Clinice sc
+                      WHERE sc.Id_locatie IN (
+                          SELECT l.Id_locatie
+                          FROM Locatie l
+                          WHERE l.Oras = :localitate))
+                """),
+                {"localitate": localitate}  # Transmiterea parametrului
+            )
+
+            # Convertim rezultatele într-un format lizibil, de ex., o listă de dicționare
         rows = result.fetchall()
         columns = result.keys()
-    return render_template('join_results.html',
+        return render_template('join_results.html',
                            rows=rows,
                            columns=columns,
                            query=" Medici Ore")
