@@ -53,6 +53,8 @@ def load_locatie():
         for row in rows:
             result_all.append(row)
         return result_all
+
+
 def load_medicistudiu():
     with engine.connect() as conn:
         result = conn.execute(text("SELECT * FROM Medici_studiu"))
@@ -61,6 +63,8 @@ def load_medicistudiu():
         for row in rows:
             result_all.append(row)
         return result_all
+
+
 def load_participantistudiu():
     with engine.connect() as conn:
         result = conn.execute(text("SELECT * FROM Participanti_studiu"))
@@ -69,116 +73,144 @@ def load_participantistudiu():
         for row in rows:
             result_all.append(row)
         return result_all
+
+
 def search_pacienti1(search_by, search_value):
     with engine.connect() as conn:
-        # Asigură-te că search_by și search_value sunt corect sanitizate
-        query = text(f"SELECT * FROM Pacienti WHERE {search_by} LIKE :search_value")
+
+        query = text(
+            f"SELECT * FROM Pacienti WHERE {search_by} LIKE :search_value")
         result = conn.execute(query, {'search_value': f"%{search_value}%"})
         rows = result.fetchall()
         result_all = []
         for row in rows:
             result_all.append(row)
         return result_all
+
+
 @app.route('/pacienti/search', methods=['GET'])
 def search_pacienti():
     search_by = request.args.get('search_by')
     search_value = request.args.get('search_value')
 
     if search_by and search_value:
-        # Apelăm funcția de căutare cu câmpul și valoarea de căutare
+
         pacienti_gasiti = search_pacienti1(search_by, search_value)
     else:
         pacienti_gasiti = []
 
     return render_template('pacienti.html', pacienti=pacienti_gasiti)
+
+
 def search_medici1(search_by, search_value):
     with engine.connect() as conn:
-        # Asigură-te că search_by și search_value sunt corect sanitizate
-        query = text(f"SELECT * FROM Medici WHERE {search_by} LIKE :search_value")
+
+        query = text(
+            f"SELECT * FROM Medici WHERE {search_by} LIKE :search_value")
         result = conn.execute(query, {'search_value': f"%{search_value}%"})
         rows = result.fetchall()
         result_all = []
         for row in rows:
             result_all.append(row)
         return result_all
+
+
 @app.route('/medici/search', methods=['GET'])
 def search_medici():
     search_by = request.args.get('search_by')
     search_value = request.args.get('search_value')
 
     if search_by and search_value:
-        # Apelăm funcția de căutare cu câmpul și valoarea de căutare
+
         pacienti_gasiti = search_medici1(search_by, search_value)
     else:
         pacienti_gasiti = []
 
     return render_template('medici.html', medici=pacienti_gasiti)
+
+
 def search_medicamente1(search_by, search_value):
     with engine.connect() as conn:
-        # Asigură-te că search_by și search_value sunt corect sanitizate
-        query = text(f"SELECT * FROM Medicamente WHERE {search_by} LIKE :search_value")
+
+        query = text(
+            f"SELECT * FROM Medicamente WHERE {search_by} LIKE :search_value")
         result = conn.execute(query, {'search_value': f"%{search_value}%"})
         rows = result.fetchall()
         result_all = []
         for row in rows:
             result_all.append(row)
         return result_all
+
+
 @app.route('/medicamente/search', methods=['GET'])
 def search_medicamente():
     search_by = request.args.get('search_by')
     search_value = request.args.get('search_value')
 
     if search_by and search_value:
-        # Apelăm funcția de căutare cu câmpul și valoarea de căutare
+
         pacienti_gasiti = search_medicamente1(search_by, search_value)
     else:
         pacienti_gasiti = []
 
     return render_template('medicamente.html', medicamente=pacienti_gasiti)
+
+
 def search_studii1(search_by, search_value):
     with engine.connect() as conn:
-        # Asigură-te că search_by și search_value sunt corect sanitizate
-        query = text(f"SELECT * FROM Studii_Clinice WHERE {search_by} LIKE :search_value")
+
+        query = text(
+            f"SELECT * FROM Studii_Clinice WHERE {search_by} LIKE :search_value"
+        )
         result = conn.execute(query, {'search_value': f"%{search_value}%"})
         rows = result.fetchall()
         result_all = []
         for row in rows:
             result_all.append(row)
         return result_all
+
+
 @app.route('/studii/search', methods=['GET'])
 def search_studii():
     search_by = request.args.get('search_by')
     search_value = request.args.get('search_value')
 
     if search_by and search_value:
-        # Apelăm funcția de căutare cu câmpul și valoarea de căutare
+
         pacienti_gasiti = search_studii1(search_by, search_value)
     else:
         pacienti_gasiti = []
 
     return render_template('studii.html', studii=pacienti_gasiti)
+
+
 def search_locatie1(search_by, search_value):
     with engine.connect() as conn:
-        # Asigură-te că search_by și search_value sunt corect sanitizate
-        query = text(f"SELECT * FROM Locatie WHERE {search_by} LIKE :search_value")
+
+        query = text(
+            f"SELECT * FROM Locatie WHERE {search_by} LIKE :search_value")
         result = conn.execute(query, {'search_value': f"%{search_value}%"})
         rows = result.fetchall()
         result_all = []
         for row in rows:
             result_all.append(row)
         return result_all
+
+
 @app.route('/locatie/search', methods=['GET'])
 def search_locatie():
     search_by = request.args.get('search_by')
     search_value = request.args.get('search_value')
 
     if search_by and search_value:
-        # Apelăm funcția de căutare cu câmpul și valoarea de căutare
+
         pacienti_gasiti = search_locatie1(search_by, search_value)
     else:
         pacienti_gasiti = []
 
     return render_template('locatie.html', locatie=pacienti_gasiti)
+
+
 @app.route('/')
 def hello_world():
     return render_template('home.html')
@@ -218,15 +250,18 @@ def locatie():
     locatie = load_locatie()
     return render_template('locatie.html', locatie=locatie)
 
+
 @app.route('/medici_studiu')
 def medici_studiu():
     studii = load_medicistudiu()
     return render_template('medici_studiu.html', studii=studii)
 
+
 @app.route('/participanti_studiu')
 def participanti_studiu():
     studii = load_participantistudiu()
     return render_template('participanti_studiu.html', studii=studii)
+
 
 # Cod pentru adaugare/stergere/editare elemente din fiecare tabel
 @app.route('/studiu/add', methods=['POST'])
@@ -248,19 +283,26 @@ def add_medic_studiu():
                 "nr_ore": nr_ore
             })
         conn.commit()
-    return redirect(url_for('medici_studiu'))  
+    return redirect(url_for('medici_studiu'))
 
-@app.route('/medici_studiu/delete/<int:id_medic>/<int:id_studiu>', methods=['POST'])
+
+@app.route('/medici_studiu/delete/<int:id_medic>/<int:id_studiu>',
+           methods=['POST'])
 def delete_medic_studiu(id_medic, id_studiu):
-    
+
     with engine.connect() as conn:
-        
+
         conn.execute(
-            text("""Delete FROM Medici_studiu WHERE Id_medic1 = :id_medic AND Id_studiu1 = :id_studiu"""), 
-            {"id_medic": id_medic, "id_studiu": id_studiu}
-        )
+            text(
+                """Delete FROM Medici_studiu WHERE Id_medic1 = :id_medic AND Id_studiu1 = :id_studiu"""
+            ), {
+                "id_medic": id_medic,
+                "id_studiu": id_studiu
+            })
         conn.commit()
     return redirect(url_for('medici_studiu'))
+
+
 @app.route('/participanti_studiu/add', methods=['POST'])
 def add_participanti_studiu():
     id_pacient = request.form['id_pacient']
@@ -280,19 +322,26 @@ def add_participanti_studiu():
                 "stare_participare": stare_participare
             })
         conn.commit()
-    return redirect(url_for('participanti_studiu'))  
-@app.route('/participanti_studiu/delete/<int:id_pacient>/<int:id_studiu>', methods=['POST'])
+    return redirect(url_for('participanti_studiu'))
+
+
+@app.route('/participanti_studiu/delete/<int:id_pacient>/<int:id_studiu>',
+           methods=['POST'])
 def delete_participanti_studiu(id_pacient, id_studiu):
-    
+
     with engine.connect() as conn:
-       
+
         conn.execute(
-            text("""Delete FROM Participanti_studiu WHERE Id_pacient = :id_pacient AND Id_studiu = :id_studiu"""), 
-            {"id_pacient": id_pacient, "id_studiu": id_studiu}
-        )
+            text(
+                """Delete FROM Participanti_studiu WHERE Id_pacient = :id_pacient AND Id_studiu = :id_studiu"""
+            ), {
+                "id_pacient": id_pacient,
+                "id_studiu": id_studiu
+            })
         conn.commit()
     return redirect(url_for('participanti_studiu'))
-    
+
+
 @app.route('/medici/add', methods=['POST'])
 def add_medic():
     nume = request.form['nume']
@@ -346,13 +395,13 @@ def edit_medic(id):
 @app.route('/medici/delete/<int:id>', methods=['POST'])
 def delete_medic(id):
     with engine.connect() as conn:
-        conn.execute(text("""DELETE FROM Participanti_studiu 
+        conn.execute(
+            text("""DELETE FROM Participanti_studiu 
 WHERE Id_pacient IN (
     SELECT p.Id_pacient
     FROM Pacienti p
     WHERE p.Id_medic = :id
-);"""),
-                     {"id": id})
+);"""), {"id": id})
         conn.commit()
         with engine.connect() as conn:
             conn.execute(text("""DELETE FROM Pacienti WHERE Id_medic=:id"""),
@@ -366,7 +415,7 @@ WHERE Id_pacient IN (
         conn.execute(text("""DELETE FROM Medici WHERE Id_medic=:id"""),
                      {"id": id})
         conn.commit()
-        
+
     return redirect(url_for('medici'))
 
 
@@ -493,15 +542,14 @@ def edit_pacient(id):
 @app.route('/pacienti/delete/<int:id>', methods=['POST'])
 def delete_pacient(id):
     with engine.connect() as conn:
-        conn.execute(text(""" DELETE FROM Participanti_studiu WHERE Id_pacient =:id;
-        """
-        ),
-                     {"id": id})
+        conn.execute(
+            text(""" DELETE FROM Participanti_studiu WHERE Id_pacient =:id;
+        """), {"id": id})
         conn.commit()
         with engine.connect() as conn:
-            conn.execute(text(""" DELETE FROM Pacienti WHERE Id_pacient=:id"""
-            ),
-                         {"id": id})
+            conn.execute(
+                text(""" DELETE FROM Pacienti WHERE Id_pacient=:id"""),
+                {"id": id})
             conn.commit()
     return redirect(url_for('pacienti'))
 
@@ -637,7 +685,8 @@ def delete_studiu(id):
         conn.commit()
         with engine.connect() as conn:
             conn.execute(
-                text("""DELETE FROM Participanti_studiu WHERE Id_studiu=:id"""),
+                text(
+                    """DELETE FROM Participanti_studiu WHERE Id_studiu=:id"""),
                 {"id": id})
             conn.commit()
     with engine.connect() as conn:
@@ -674,7 +723,6 @@ def join1():
                            query=" Medici Studii")
 
 
-
 @app.route('/join2')
 def join2():
     with engine.connect() as conn:
@@ -700,7 +748,6 @@ def join2():
                            query=" Pacienti Studii")
 
 
-
 @app.route('/join3')
 def join3():
     with engine.connect() as conn:
@@ -722,7 +769,6 @@ def join3():
                            rows=rows,
                            columns=columns,
                            query=" Pacienti Medici")
-
 
 
 @app.route('/join4')
@@ -749,15 +795,14 @@ def join4():
                            query=" Studiu Medicament")
 
 
-
 @app.route('/join5')
 def join5():
-        # Preluăm litera din parametrii URL (ex: ?litera=C)
-        litera = request.args.get('litera', 'C')  # Valoare implicită: 'C'
 
-        with engine.connect() as conn:
-            result = conn.execute(
-                text("""
+    litera = request.args.get('litera', 'C')
+
+    with engine.connect() as conn:
+        result = conn.execute(
+            text("""
                     SELECT 
                         loc.Nume_locatie,
                         stud.Nume_studiu
@@ -766,18 +811,15 @@ def join5():
                     JOIN 
                         Locatie loc ON stud.Id_locatie = loc.Id_locatie
                     WHERE loc.Nume_locatie LIKE :litera || '%';
-                """),
-                {"litera": litera}  # Transmiterea parametrului
-            )
-            rows = result.fetchall()
-            columns = result.keys()
+                """), {"litera": litera})
+        rows = result.fetchall()
+        columns = result.keys()
 
-        return render_template('join_results.html',
-                               rows=rows,
-                               columns=columns,
-                               query=f"Locații care încep cu '{litera}' și studiile asociate")
-
-
+    return render_template(
+        'join_results.html',
+        rows=rows,
+        columns=columns,
+        query=f"Locații care încep cu '{litera}' și studiile asociate")
 
 
 @app.route('/join6')
@@ -805,12 +847,12 @@ def join6():
 
 @app.route('/complex1')
 def complex1():
-        # Preluăm localitatea din parametrii URL (ex: ?localitate=București)
-        localitate = request.args.get('localitate', 'București')  # Valoare implicită: 'București'
 
-        with engine.connect() as conn:
-            result = conn.execute(
-                text("""
+    localitate = request.args.get('localitate', 'București')
+
+    with engine.connect() as conn:
+        result = conn.execute(
+            text("""
                   SELECT md.nume_medicament, md.producator
                   FROM Medicamente md
                   WHERE md.Id_medicament IN (
@@ -820,14 +862,11 @@ def complex1():
                           SELECT l.Id_locatie
                           FROM Locatie l
                           WHERE l.Oras = :localitate))
-                """),
-                {"localitate": localitate}  # Transmiterea parametrului
-            )
+                """), {"localitate": localitate})
 
-            # Convertim rezultatele într-un format lizibil, de ex., o listă de dicționare
-        rows = result.fetchall()
-        columns = result.keys()
-        return render_template('join_results.html',
+    rows = result.fetchall()
+    columns = result.keys()
+    return render_template('join_results.html',
                            rows=rows,
                            columns=columns,
                            query=" Medici Ore")
